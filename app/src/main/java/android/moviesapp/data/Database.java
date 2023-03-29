@@ -7,9 +7,10 @@ import android.moviesapp.domain.Movie;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@androidx.room.Database(entities = {Movie.class, List.class}, version = 1, exportSchema = false)
+@androidx.room.Database(entities = {Movie.class, List.class}, version = 2, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     private static volatile Database instance;
+    public abstract MovieDao movieDao();
 
     public static Database getInstance(Context ctx) {
         if (instance == null) {

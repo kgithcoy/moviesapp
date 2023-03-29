@@ -1,9 +1,9 @@
 package android.moviesapp.adapters;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.moviesapp.R;
 import android.moviesapp.domain.Movie;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,31 +14,57 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    private List<Movie> movies;
-    private Context context;
+    private List<Movie> movies = Collections.emptyList();
+    private Consumer<Integer> onRequestNextPageCallback;
+    private int pageCounter = 0;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
-        this.context = context;
+    /**
+     * setData sets the data of the adapter.
+     * @param movies List of movies
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(@NotNull List<Movie> movies) {
         this.movies = movies;
+        notifyDataSetChanged();
+    }
+
+    /**
+     * setOnRequestNextPageCallback sets the callback that
+     * is called when more items are needed.
+     * @param onRequestNextPageCallback Callback
+     */
+    public void setOnRequestNextPageCallback(Consumer<Integer> onRequestNextPageCallback) {
+        this.onRequestNextPageCallback = onRequestNextPageCallback;
     }
 
     @NonNull
     @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item, parent, false);
-        return new MovieViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        var view = View.inflate(parent.getContext(), R.layout.item_movie, null);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Movie movie = movies.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        int page = 1 + (1 + position / 20);
+        if (page > pageCounter && onRequestNextPageCallback != null) {
+            onRequestNextPageCallback.accept(page);
+            pageCounter++;
+        }
+
+        var movie = movies.get(position);
         holder.title.setText(movie.getTitle());
         holder.releaseDate.setText(movie.getReleaseDate());
-        Picasso.get().load(movie.getPosterPath()).into(holder.poster);
+        Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
     }
 
     @Override
@@ -46,16 +72,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return movies.size();
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder {
-        ImageView poster;
-        TextView title;
-        TextView releaseDate;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView poster;
+        private final TextView title, releaseDate;
 
-        public MovieViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            poster = itemView.findViewById(R.id.movie_poster);
-            title = itemView.findViewById(R.id.movie_title);
-            releaseDate = itemView.findViewById(R.id.movie_release_date);
+            poster = itemView.findViewById(R.id.item_movie_poster);
+            title = itemView.findViewById(R.id.item_movie_title);
+            releaseDate = itemView.findViewById(R.id.item_movie_release_date);
         }
     }
 }

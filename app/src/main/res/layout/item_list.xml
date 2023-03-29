@@ -6,14 +6,14 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/movie_poster"
+        android:id="@+id/item_list_poster"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
         android:contentDescription="TODO" />
 
     <TextView
-        android:id="@+id/movie_title"
+        android:id="@+id/item_list_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
@@ -21,7 +21,14 @@
         android:paddingTop="4dp"/>
 
     <TextView
-        android:id="@+id/movie_release_date"
+        android:id="@+id/item_list_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:paddingTop="4dp"/>
+
+    <TextView
+        android:id="@+id/item_list_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"

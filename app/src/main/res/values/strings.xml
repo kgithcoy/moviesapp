@@ -9,4 +9,5 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="main_toast_message_error">Could not load movies from API</string>
 </resources>

@@ -32,6 +32,8 @@ public class Movie {
     @SerializedName("vote_count")
     private int voteCount;
 
+    private double popularity;
+
     @Ignore
     private ArrayList<Review> reviews;
 
@@ -102,6 +104,14 @@ public class Movie {
         this.voteCount = voteCount;
     }
 
+    public double getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
     public ArrayList<Review> getReviews() {
         return reviews;
     }
@@ -116,5 +126,9 @@ public class Movie {
 
     public void setCast(ArrayList<Person> cast) {
         this.cast = cast;
+    }
+
+    public String getPosterUrl() {
+        return "https://image.tmdb.org/t/p/w500" + posterPath;
     }
 }
