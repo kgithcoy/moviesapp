@@ -14,6 +14,6 @@ public interface TheMovieDBService {
     String ENDPOINT = "https://api.themoviedb.org/";
     String API_KEY = "805531b78efe54a857ebf2cd0d4d1d3b";
 
-    @GET("/auth/request_token")
+    @GET("/3/movie/popular")
     Call<ResponseData<Movie>> popularMovies(@Query("page") int page, @Query("api_key") String apiKey);
 }
