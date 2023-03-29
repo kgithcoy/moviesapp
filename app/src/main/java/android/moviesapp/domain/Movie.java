@@ -13,4 +13,44 @@ public class Movie {
     private int voteCount;
     private ArrayList<Review> reviews;
     private ArrayList<Person> cast;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public String getBackdropPath() {
+        return backdropPath;
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
+
+    public ArrayList<Person> getCast() {
+        return cast;
+    }
 }
