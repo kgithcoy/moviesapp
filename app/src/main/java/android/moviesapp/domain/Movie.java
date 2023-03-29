@@ -1,7 +1,10 @@
 package android.moviesapp.domain;
 
+import androidx.room.Entity;
+
 import java.util.ArrayList;
 
+@Entity(tableName = "movie_table")
 public class Movie {
     private int id;
     private String title;
