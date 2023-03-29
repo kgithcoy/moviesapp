@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 @Entity(tableName = "movie")
@@ -14,10 +16,20 @@ public class Movie {
 
     private String title;
     private String overview;
+
+    @SerializedName("poster_path")
     private String posterPath;
+
+    @SerializedName("backdrop_path")
     private String backdropPath;
+
+    @SerializedName("release_date")
     private String releaseDate;
+
+    @SerializedName("vote_average")
     private double voteAverage;
+
+    @SerializedName("vote_count")
     private int voteCount;
 
     @Ignore

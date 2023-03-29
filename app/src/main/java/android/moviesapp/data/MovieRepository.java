@@ -50,9 +50,9 @@ public class MovieRepository {
                     throw new Exception("API request failed");
                 }
 
-                var meals = body.data();
+                var movies = body.data();
                 Log.i(TAG, "Refreshed local database");
-                new Handler(Looper.getMainLooper()).post(() -> success.accept(meals));
+                new Handler(Looper.getMainLooper()).post(() -> success.accept(movies));
             } catch (Exception err) {
                 Log.e(TAG, "Could not refresh local database", err);
                 new Handler(Looper.getMainLooper()).post(() -> error.accept(err));

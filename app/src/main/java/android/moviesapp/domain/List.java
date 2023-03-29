@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 @Entity(tableName = "list")
@@ -12,7 +14,11 @@ public class List {
     private int id;
     private String name;
     private String description;
+
+    @SerializedName("poster_path")
     private String posterPath;
+
+    @SerializedName("item_count")
     private int itemCount;
 
     @Ignore
