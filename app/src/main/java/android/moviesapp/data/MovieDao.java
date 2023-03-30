@@ -16,8 +16,8 @@ import java.util.List;
  */
 @Dao
 public interface MovieDao {
-    @Query("SELECT * FROM movie ORDER BY :orderBy")
-    LiveData<List<Movie>> getMovies(String orderBy);
+    @Query("SELECT * FROM movie ORDER BY popularity DESC")
+    LiveData<List<Movie>> getMoviesOrderByPopularity();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Movie> movie);

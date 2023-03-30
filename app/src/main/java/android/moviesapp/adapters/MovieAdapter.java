@@ -3,7 +3,6 @@ package android.moviesapp.adapters;
 import android.annotation.SuppressLint;
 import android.moviesapp.R;
 import android.moviesapp.domain.Movie;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -33,6 +31,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
      */
     @SuppressLint("NotifyDataSetChanged")
     public void setData(@NotNull List<Movie> movies) {
+        if(movies.isEmpty()) {
+            onRequestNextPageCallback.accept(1);
+            return;
+        }
+
         this.movies = movies;
         notifyDataSetChanged();
     }

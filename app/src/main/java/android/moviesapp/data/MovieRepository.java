@@ -37,7 +37,7 @@ public class MovieRepository {
      * @return list of meals.
      */
     public LiveData<List<Movie>> getPopularMovies() {
-        return movieDao.getMovies("popularity.desc");
+        return movieDao.getMoviesOrderByPopularity();
     }
 
     /**
