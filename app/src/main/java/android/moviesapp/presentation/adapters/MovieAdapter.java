@@ -31,7 +31,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
      * setData sets the data of the adapter.
      * @param movies List of movies
      */
-    @SuppressLint("NotifyDataSetChanged")
     public void setData(@NotNull List<Movie> movies) {
         if(movies.isEmpty()) {
             onNextPage.accept(1);
@@ -39,7 +38,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         this.movies = movies;
-        notifyDataSetChanged();
+        notifyItemRangeChanged(pageCounter * 20, movies.size());
     }
 
     /**
