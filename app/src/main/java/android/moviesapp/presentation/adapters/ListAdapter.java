@@ -1,4 +1,4 @@
-package android.moviesapp.adapters;
+package android.moviesapp.presentation.adapters;
 
 import android.content.Context;
 import android.moviesapp.R;

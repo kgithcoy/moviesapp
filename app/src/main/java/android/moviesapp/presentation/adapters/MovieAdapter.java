@@ -1,4 +1,4 @@
-package android.moviesapp.adapters;
+package android.moviesapp.presentation.adapters;
 
 import android.annotation.SuppressLint;
 import android.moviesapp.R;
@@ -66,7 +66,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         var movie = movies.get(position);
         holder.title.setText(movie.getTitle());
-        holder.releaseDate.setText(movie.getReleaseDate());
         Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
     }
 
@@ -77,13 +76,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView poster;
-        private final TextView title, releaseDate;
+        private final TextView title;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.item_movie_poster);
             title = itemView.findViewById(R.id.item_movie_title);
-            releaseDate = itemView.findViewById(R.id.item_movie_release_date);
         }
     }
 }

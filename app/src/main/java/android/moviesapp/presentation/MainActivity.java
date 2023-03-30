@@ -6,13 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
 import android.moviesapp.R;
-import android.moviesapp.adapters.MovieAdapter;
+import android.moviesapp.presentation.adapters.MovieAdapter;
 import android.moviesapp.data.MovieRepository;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         var isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         recyclerView.setLayoutManager(
-            new GridLayoutManager(this, isLandscape ? 2 : 1)
+            new GridLayoutManager(this, isLandscape ? 4 : 2)
         );
 
         // Load data
