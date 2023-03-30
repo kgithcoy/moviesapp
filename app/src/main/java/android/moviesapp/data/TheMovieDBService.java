@@ -16,4 +16,7 @@ public interface TheMovieDBService {
 
     @GET("/3/movie/popular")
     Call<ResponseData<Movie>> popularMovies(@Query("page") int page, @Query("api_key") String apiKey);
+
+    @GET("/3/search/movie")
+    Call<ResponseData<Movie>> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);
 }

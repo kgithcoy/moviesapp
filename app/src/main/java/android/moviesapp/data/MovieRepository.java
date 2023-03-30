@@ -66,9 +66,37 @@ public class MovieRepository {
 
                 var movies = body.data();
                 movieDao.insert(movies);
-
-                Log.i(TAG, "Loaded " + movies.size() + " movie items from API");
                 new Handler(Looper.getMainLooper()).post(() -> success.accept(movies));
+            } catch (Exception err) {
+                Log.e(TAG, "Could not load movie items", err);
+                new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
+            }
+        });
+    }
+
+    /**
+     * searchMovies tries to search for movies by a given query.
+     * @param success callback that is executed when the
+     *                request is successful.
+     * @param error callback that is executed when the
+     *              request fails.
+     */
+    public void searchMovies(String query, int page, Consumer<List<Movie>> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                Log.d(TAG, "Searching movies; query: " + query + ", page: " + page);
+                var response = theMovieDBService.searchMovies(
+                    query,
+                    page,
+                    TheMovieDBService.API_KEY
+                ).execute();
+
+                var body = response.body();
+                if (!response.isSuccessful() || body == null) {
+                    throw new Exception("API request failed; code: " + response.code());
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> success.accept(body.data()));
             } catch (Exception err) {
                 Log.e(TAG, "Could not load movie items", err);
                 new Handler(Looper.getMainLooper()).post(() -> error.accept(err));

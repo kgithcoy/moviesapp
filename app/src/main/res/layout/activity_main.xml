@@ -6,6 +6,17 @@
     android:orientation="vertical"
     tools:context=".presentation.MainActivity">
 
+    <!-- search bar, hidden by default -->
+    <SearchView
+        android:id="@+id/main_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="@string/main_query_hint"
+        android:background="#EEE"
+        android:visibility="gone"
+        android:iconifiedByDefault="false"
+        android:layout_margin="16dp" />
+
     <!-- list with movies -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_recycler_view"
