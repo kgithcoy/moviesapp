@@ -14,7 +14,6 @@ public interface TheMovieDBService {
     String ENDPOINT = "https://api.themoviedb.org/";
     String API_KEY = "805531b78efe54a857ebf2cd0d4d1d3b";
 
-
     @GET("/3/trending/movie/week")
     Call<ResponseData<Movie>> trendingMovies(@Query("page") int page, @Query("api_key") String apiKey);
 
@@ -23,7 +22,6 @@ public interface TheMovieDBService {
 
     @GET("/3/movie/top_rated")
     Call<ResponseData<Movie>> topRatedMovies(@Query("page") int page, @Query("api_key") String apiKey);
-
 
     @GET("/3/search/movie")
     Call<ResponseData<Movie>> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);

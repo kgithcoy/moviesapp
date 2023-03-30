@@ -7,18 +7,32 @@
     tools:context=".presentation.MainActivity">
 
     <!-- search bar, hidden by default -->
-    <SearchView
-        android:id="@+id/main_search_bar"
+    <LinearLayout
+        android:id="@+id/main_search_bar_container"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="@string/main_query_hint"
-        android:background="#EEE"
-        android:visibility="gone"
-        android:iconifiedByDefault="false"
-        android:layout_margin="16dp" />
+        android:orientation="vertical">
 
-    <!-- list with movies -->
+        <SearchView
+            android:id="@+id/main_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="@string/main_query_hint"
+            android:background="#EEE"
+            android:iconifiedByDefault="false"
+            android:layout_margin="16dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_recycler_view_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!-- movie lists -->
     <ScrollView
+        android:id="@+id/main_movie_lists_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,14 +41,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
+            <!-- trending -->
             <TextView
-                android:id="@+id/trending"
+                android:id="@+id/main_trending_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/trending"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:paddingStart="8dp"
+                android:paddingHorizontal="8dp"
                 android:paddingBottom="8dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -43,16 +58,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" />
 
-
-
+            <!-- popular -->
             <TextView
-                android:id="@+id/popular"
+                android:id="@+id/main_popular_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/popular"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:paddingStart="8dp"
+                android:paddingHorizontal="8dp"
                 android:paddingBottom="8dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -60,32 +74,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="16dp">
+                android:paddingBottom="16dp" />
 
-            </androidx.recyclerview.widget.RecyclerView>
-
-
-
+            <!-- top rated -->
             <TextView
-                android:id="@+id/top_rated"
+                android:id="@+id/main_top_rated_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/top_rated"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:paddingStart="8dp"
+                android:paddingHorizontal="8dp"
                 android:paddingBottom="8dp"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/main_recycler_view_top_rated"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="16dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
+                android:paddingBottom="16dp" />
 
         </LinearLayout>
+
     </ScrollView>
 
 </LinearLayout>
