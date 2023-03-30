@@ -25,9 +25,9 @@ public class MovieRepository {
         movieDao = db.movieDao();
 
         var client = new Retrofit.Builder()
-                .baseUrl(TheMovieDBService.ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+            .baseUrl(TheMovieDBService.ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
         theMovieDBService = client.create(TheMovieDBService.class);
     }
 

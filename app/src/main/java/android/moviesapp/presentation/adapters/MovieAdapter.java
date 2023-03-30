@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +24,7 @@ import java.util.function.Consumer;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     private List<Movie> movies = Collections.emptyList();
-    private Consumer<Integer> onRequestNextPageCallback;
+    private Consumer<Integer> onNextPage;
     private int pageCounter = 0;
 
     /**
@@ -32,7 +34,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @SuppressLint("NotifyDataSetChanged")
     public void setData(@NotNull List<Movie> movies) {
         if(movies.isEmpty()) {
-            onRequestNextPageCallback.accept(1);
+            onNextPage.accept(1);
             return;
         }
 
@@ -41,12 +43,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     /**
-     * setOnRequestNextPageCallback sets the callback that
+     * setOnNextPage sets the callback that
      * is called when more items are needed.
-     * @param onRequestNextPageCallback Callback
+     * @param onNextPage Callback
      */
-    public void setOnRequestNextPageCallback(Consumer<Integer> onRequestNextPageCallback) {
-        this.onRequestNextPageCallback = onRequestNextPageCallback;
+    public void setOnNextPage(Consumer<Integer> onNextPage) {
+        this.onNextPage = onNextPage;
     }
 
     @NonNull
@@ -59,14 +61,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int page = 1 + (1 + position / 20);
-        if (page > pageCounter && onRequestNextPageCallback != null) {
-            onRequestNextPageCallback.accept(page);
+        if (page > pageCounter && onNextPage != null) {
+            onNextPage.accept(page);
             pageCounter++;
         }
 
         var movie = movies.get(position);
         holder.title.setText(movie.getTitle());
-        Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
+        Picasso.get()
+            .load(movie.getPosterUrl())
+            .networkPolicy(NetworkPolicy.OFFLINE)
+            .into(holder.poster, new Callback() {
+                public void onSuccess() { }
+                public void onError(Exception err) {
+                    // If image can't be loaded from cache,
+                    // try to load it from the internet.
+                    Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
+                }
+            });
     }
 
     @Override

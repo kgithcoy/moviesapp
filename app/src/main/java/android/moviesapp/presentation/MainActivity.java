@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         movieRepo.getPopularMovies().observe(this, adapter::setData);
 
         // Load the first page
-        adapter.setOnRequestNextPageCallback(page ->
+        adapter.setOnNextPage(page ->
             movieRepo.requestMovies(
                 page,
                 data -> Log.d(TAG, "Loaded " + data.size() + " movie items"),
