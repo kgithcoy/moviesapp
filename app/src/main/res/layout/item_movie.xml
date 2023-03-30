@@ -8,8 +8,7 @@
     <ImageView
         android:id="@+id/item_movie_poster"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
+        android:layout_height="300dp"
         android:contentDescription="TODO" />
 
     <TextView
@@ -18,13 +17,6 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingTop="4dp"/>
-
-    <TextView
-        android:id="@+id/item_movie_release_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
         android:paddingTop="4dp"/>
 
 </LinearLayout>
