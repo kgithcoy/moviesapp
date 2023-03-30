@@ -10,6 +10,11 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="main_toast_message_error">Could not load movies from API</string>
+    <string name="trending">Trending</string>
+    <string name="popular">Popular</string>
+    <string name="most_played">Most Played</string>
+    <string name="recommended">Recommended</string>
+    <string name="top_rated">Top Rated</string>
     <string name="main_query_hint">Search Movies</string>
     <string name="menu_action_search">Search</string>
 </resources>

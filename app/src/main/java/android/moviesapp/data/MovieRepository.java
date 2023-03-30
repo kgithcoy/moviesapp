@@ -2,6 +2,8 @@ package android.moviesapp.data;
 
 import android.content.Context;
 import android.moviesapp.domain.Movie;
+import android.moviesapp.domain.api.ResponseData;
+import android.moviesapp.presentation.MainActivity;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -102,5 +105,59 @@ public class MovieRepository {
                 new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
             }
         });
+
     }
+    public void requestTrendingMovies(int page, Consumer<List<Movie>> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.trendingMovies(page, TheMovieDBService.API_KEY).execute();
+                handleMovieResponse(response, success, error);
+            } catch (Exception err) {
+                handleError(err, error);
+            }
+        });
+    }
+
+    public void requestPopularMovies(int page, Consumer<List<Movie>> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.popularMovies(page, TheMovieDBService.API_KEY).execute();
+                handleMovieResponse(response, success, error);
+            } catch (Exception err) {
+                handleError(err, error);
+            }
+        });
+    }
+
+    public void requestTopRatedMovies(int page, Consumer<List<Movie>> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.topRatedMovies(page, TheMovieDBService.API_KEY).execute();
+                handleMovieResponse(response, success, error);
+            } catch (Exception err) {
+                handleError(err, error);
+            }
+        });
+    }
+
+    private void handleMovieResponse(Response<ResponseData<Movie>> response, Consumer<List<Movie>> success, Consumer<Exception> error) {
+        var body = response.body();
+        if (!response.isSuccessful() || body == null) {
+            handleError(new Exception("API request failed; code: " + response.code()), error);
+            return;
+        }
+
+        var movies = body.data();
+        movieDao.insert(movies);
+
+        Log.i(TAG, "Loaded " + movies.size() + " movie items from API");
+        new Handler(Looper.getMainLooper()).post(() -> success.accept(movies));
+    }
+
+    private void handleError(Exception err, Consumer<Exception> error) {
+        Log.e(TAG, "Could not load movie items", err);
+        new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
+    }
+
+
 }

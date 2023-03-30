@@ -2,6 +2,7 @@ package android.moviesapp.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
@@ -28,27 +29,61 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setContentView(R.layout.activity_main);
 
         // Setup adapter
-        adapter = new MovieAdapter();
+        var trendingAdapter = new MovieAdapter();
+        var popularAdapter = new MovieAdapter();
+        var topRatedAdapter = new MovieAdapter();
+
 
         // Setup recycler view
-        RecyclerView recyclerView = findViewById(R.id.main_recycler_view);
-        recyclerView.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.main_recycler_view_popular);
+        recyclerView.setAdapter(popularAdapter);
         var isLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         recyclerView.setLayoutManager(
-            new GridLayoutManager(this, isLandscape ? 4 : 2)
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         );
 
-        // Load data
+        RecyclerView recyclerView1 = findViewById(R.id.main_recycler_view_trending);
+        recyclerView1.setAdapter(trendingAdapter);
+        recyclerView1.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        );
+
+        RecyclerView recyclerView2 = findViewById(R.id.main_recycler_view_top_rated);
+        recyclerView2.setAdapter(topRatedAdapter);
+
+        recyclerView2.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        );
+
+// Load data
         movieRepo = new MovieRepository(this);
-        movieRepo.getPopularMovies().observe(this, adapter::setData);
+        movieRepo.requestTrendingMovies(1, trendingAdapter::setData, this::handleError);
+        movieRepo.requestPopularMovies(1, popularAdapter::setData, this::handleError);
+        movieRepo.requestTopRatedMovies(1, topRatedAdapter::setData, this::handleError);
 
         // Load the first page
-        adapter.setOnNextPage(page ->
-            movieRepo.requestMovies(
-                page,
-                data -> Log.d(TAG, "Loaded " + data.size() + " movie items"),
-                error -> Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show()
-            )
+        trendingAdapter.setOnNextPage(page ->
+                movieRepo.requestTrendingMovies(
+                        page,
+                        data -> Log.d(TAG, "Loaded " + data.size() + " movie items"),
+                        this::handleError
+                )
+        );
+
+        popularAdapter.setOnNextPage(page ->
+                movieRepo.requestPopularMovies(
+                        page,
+                        data -> Log.d(TAG, "Loaded " + data.size() + " movie items"),
+                        this::handleError
+                )
+        );
+
+        topRatedAdapter.setOnNextPage(page ->
+                movieRepo.requestTopRatedMovies(
+                        page,
+                        data -> Log.d(TAG, "Loaded " + data.size() + " movie items"),
+                        this::handleError
+                )
         );
 
         // Search bar
@@ -87,5 +122,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show()
         );
         return false;
+    }
+
+    private void handleError(Exception error) {
+        Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show();
     }
 }
