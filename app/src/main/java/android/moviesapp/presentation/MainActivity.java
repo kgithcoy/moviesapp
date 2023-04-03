@@ -15,10 +15,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private ScrollView movieListContainer;
     private SearchView searchBar;
     private MovieAdapter searchAdapter;
+
+    private boolean toastShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +69,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         );
 
         // Load data
-        movieRepo.requestTrendingMovies(1, trendingAdapter::setData, this::handleError);
+        movieRepo.requestTrendingMovies(1, data -> {
+            trendingAdapter.setData(data);
+            toastShown = false;
+        }, this::handleError);
 
         movieRepo.getMoviesByPopularity().observe(this, popularAdapter::setData);
         popularAdapter.setOnNextPage(page ->
@@ -120,12 +127,25 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextChange(String query) {
         if (query.isEmpty()) return false;
-        movieRepo.searchMovies(query, 1, searchAdapter::setData, this::handleError);
+        movieRepo.searchMovies(query, 1, data -> {
+            searchAdapter.setData(data);
+            toastShown = false;
+        }, this::handleError);
         return false;
     }
 
     private void handleError(Exception err) {
-        Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show();
+        if (!toastShown) {
+            Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show();
+            toastShown = true;
+        }
+        // Hide the trending recycler view
+        RecyclerView recyclerViewTrending = findViewById(R.id.main_recycler_view_trending);
+        recyclerViewTrending.setVisibility(View.GONE);
+
+        TextView trendingLabel = findViewById(R.id.main_trending_label);
+        trendingLabel.setVisibility(View.GONE);
+
     }
 
     private void openMovieDetails(Movie movie) {
