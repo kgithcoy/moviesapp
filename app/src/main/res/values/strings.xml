@@ -18,4 +18,5 @@
     <string name="main_query_hint">Search Movies</string>
     <string name="menu_action_search">Search</string>
     <string name="movieposter">movieposter</string>
+    <string name="login_toast_message_error">Invalid credentials</string>
 </resources>

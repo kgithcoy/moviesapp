@@ -1,11 +1,10 @@
 package android.moviesapp.data;
 
 import android.moviesapp.domain.Movie;
-import android.moviesapp.domain.api.CreateSessionRequest;
 import android.moviesapp.domain.api.ResponseData;
-import android.moviesapp.domain.api.ResponseSession;
-import android.moviesapp.domain.api.ResponseToken;
-import android.moviesapp.domain.api.ValidateTokenWithLoginRequest;
+import android.moviesapp.domain.api.Session;
+import android.moviesapp.domain.api.LoginToken;
+import android.moviesapp.domain.api.ValidateRequestTokenRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -20,6 +19,7 @@ public interface TheMovieDBService {
     String ENDPOINT = "https://api.themoviedb.org/";
     String API_KEY = "805531b78efe54a857ebf2cd0d4d1d3b";
 
+    /* movies */
     @GET("/3/trending/movie/week")
     Call<ResponseData<Movie>> trendingMovies(@Query("page") int page, @Query("api_key") String apiKey);
 
@@ -31,15 +31,17 @@ public interface TheMovieDBService {
 
     @GET("/3/search/movie")
     Call<ResponseData<Movie>> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);
-    @GET("/3/authentication/token/new")
-    Call<ResponseToken> getRequestToken(@Query("api_key") String apiKey);
 
-    @POST("/3/authentication/session/new")
-    Call<ResponseSession> createSession(@Query("api_key") String apiKey, @Body CreateSessionRequest createSessionRequest);
+    /* login */
+    @GET("/3/authentication/token/new")
+    Call<LoginToken> getRequestToken(@Query("api_key") String apiKey);
 
     @POST("/3/authentication/token/validate_with_login")
-    Call<ResponseToken> validateRequestTokenWithLogin(
-            @Query("api_key") String apiKey,
-            @Body ValidateTokenWithLoginRequest validateTokenWithLoginRequest
+    Call<LoginToken> validateRequestToken(
+        @Body ValidateRequestTokenRequest validateRequestTokenRequest,
+        @Query("api_key") String apiKey
     );
+
+    @POST("/3/authentication/session/new")
+    Call<Session> createSession(@Body LoginToken loginToken, @Query("api_key") String apiKey);
 }
