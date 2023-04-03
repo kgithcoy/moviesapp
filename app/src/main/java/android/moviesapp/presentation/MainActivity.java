@@ -5,8 +5,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.moviesapp.R;
+import android.moviesapp.domain.Movie;
 import android.moviesapp.presentation.adapters.MovieAdapter;
 import android.moviesapp.data.MovieRepository;
 import android.os.Bundle;
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         MovieAdapter trendingAdapter = new MovieAdapter(),
             popularAdapter = new MovieAdapter(),
             topRatedAdapter = new MovieAdapter();
+        trendingAdapter.setOnMovieClick(this::openMovieDetails);
+        popularAdapter.setOnMovieClick(this::openMovieDetails);
+        topRatedAdapter.setOnMovieClick(this::openMovieDetails);
 
         // Setup recycler view
         RecyclerView recyclerViewSearch = findViewById(R.id.main_recycler_view_search),
@@ -79,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         searchBar.setOnQueryTextListener(this);
 
         searchAdapter = new MovieAdapter();
+        searchAdapter.setOnMovieClick(this::openMovieDetails);
         recyclerViewSearch.setAdapter(searchAdapter);
         var isVertical = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         recyclerViewSearch.setLayoutManager(new GridLayoutManager(this, isVertical ? 4 : 2));
@@ -120,5 +126,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     private void handleError(Exception err) {
         Toast.makeText(this, getResources().getString(R.string.main_toast_message_error), Toast.LENGTH_SHORT).show();
+    }
+
+    private void openMovieDetails(Movie movie) {
+        var intent = new Intent(this, MovieDetailsActivity.class);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
     }
 }

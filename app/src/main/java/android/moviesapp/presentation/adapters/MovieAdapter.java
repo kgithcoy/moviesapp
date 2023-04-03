@@ -25,6 +25,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     private List<Movie> movies = Collections.emptyList();
     private Consumer<Integer> onNextPage;
+    private Consumer<Movie> onMovieClick;
     private int pageCounter = 0;
 
     /**
@@ -49,6 +50,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void setOnNextPage(Consumer<Integer> onNextPage) {
         this.onNextPage = onNextPage;
     }
+
+    /**
+     * setOnMovieClick sets the callback that
+     * is called when a movie is clicked.
+     * @param onMovieClick Callback
+     */
+    public void setOnMovieClick(Consumer<Movie> onMovieClick) {
+        this.onMovieClick = onMovieClick;
+    }
+
 
     @NonNull
     @Override
@@ -78,6 +89,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
                 }
             });
+
+        holder.setOnClickListener(() -> onMovieClick.accept(movie));
     }
 
     @Override
@@ -88,11 +101,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView poster;
         private final TextView title;
+        private Runnable onClick;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             poster = itemView.findViewById(R.id.item_movie_poster);
             title = itemView.findViewById(R.id.item_movie_title);
+            itemView.setOnClickListener(v -> onClick.run());
+        }
+
+        public void setOnClickListener(Runnable onClick) {
+            this.onClick = onClick;
         }
     }
 }
