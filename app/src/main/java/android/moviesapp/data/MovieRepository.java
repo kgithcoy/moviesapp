@@ -22,6 +22,7 @@ public class MovieRepository {
     private final MovieDao movieDao;
     private final TheMovieDBService theMovieDBService;
 
+
     public MovieRepository(Context ctx) {
         var db = Database.getInstance(ctx);
         movieDao = db.movieDao();
