@@ -132,4 +132,6 @@ public class Movie implements Serializable {
     public String getPosterUrl() {
         return "https://image.tmdb.org/t/p/w500" + posterPath;
     }
+
+    public String getBackdropUrl() { return "https://image.tmdb.org/t/p/w780" + backdropPath; }
 }
