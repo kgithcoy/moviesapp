@@ -17,4 +17,5 @@
     <string name="top_rated">Top Rated</string>
     <string name="main_query_hint">Search Movies</string>
     <string name="menu_action_search">Search</string>
+    <string name="movieposter">movieposter</string>
 </resources>
