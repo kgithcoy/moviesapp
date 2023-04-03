@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.moviesapp.R;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         movieRepo = new MovieRepository(this);
+        View view = findViewById(R.id.action_list);
+        view.setOnClickListener(v -> openListActivity());
 
         // Setup adapter
         MovieAdapter trendingAdapter = new MovieAdapter(),
@@ -117,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
+
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         searchBarContainer.setVisibility(SearchView.GONE);
@@ -151,6 +156,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private void openMovieDetails(Movie movie) {
         var intent = new Intent(this, MovieDetailsActivity.class);
         intent.putExtra("movie", movie);
+        startActivity(intent);
+    }
+
+    private void openListActivity() {
+        Intent intent = new Intent(this, ListActivity.class);
         startActivity(intent);
     }
 }

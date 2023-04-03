@@ -18,4 +18,6 @@
     <string name="main_query_hint">Search Movies</string>
     <string name="menu_action_search">Search</string>
     <string name="movieposter">movieposter</string>
+    <string name="list">Lijst</string>
+    <string name="menu_action_list">listicon</string>
 </resources>
