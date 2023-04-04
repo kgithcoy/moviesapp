@@ -8,6 +8,7 @@ import android.moviesapp.domain.api.Session;
 import android.moviesapp.domain.api.LoginToken;
 import android.moviesapp.domain.api.ValidateRequestTokenRequest;
 
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
@@ -52,6 +53,14 @@ public interface TheMovieDBService {
     Call<List> getList(
          @Path("list_id") int listId,
          @Query("api_key") String apiKey
+    );
+
+    @POST("/3/list/{list_id}/add_item")
+    Call<Void> addMovieToList(
+        @Path("list_id") int listId,
+        @Query("session_id") String sessionId,
+        @Query("api_key") String apiKey,
+        @Body Map<String, Integer> body
     );
 
     /* login */

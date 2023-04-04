@@ -2,6 +2,7 @@ package android.moviesapp.data;
 
 import android.content.Context;
 import android.moviesapp.domain.Account;
+import android.moviesapp.domain.Movie;
 import android.moviesapp.domain.api.ResponseData;
 import android.moviesapp.domain.api.Session;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -59,6 +61,21 @@ public class ListRepository {
                 new Handler(Looper.getMainLooper()).post(() -> success.accept(list));
             } catch (Exception err) {
                 Log.e(TAG, "Could not load list", err);
+                new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
+            }
+        });
+    }
+
+    public void addMovieToList(android.moviesapp.domain.List list, Movie movie, Session session, Consumer<android.moviesapp.domain.List> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.addMovieToList(list.getId(), session.sessionId(), TheMovieDBService.API_KEY, Map.of("media_id", movie.getId())).execute();
+                if (!response.isSuccessful()) {
+                    throw new Exception("API request failed; code: " + response.code());
+                }
+                new Handler(Looper.getMainLooper()).post(() -> success.accept(list));
+            } catch (Exception err) {
+                Log.e(TAG, "Could not add movie to list", err);
                 new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
             }
         });

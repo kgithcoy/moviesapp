@@ -1,5 +1,6 @@
 package android.moviesapp.domain;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -75,6 +76,12 @@ public class List implements Serializable {
 
     public String getPosterUrl() {
         return "https://image.tmdb.org/t/p/w500" + posterPath;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return name;
     }
 }
 

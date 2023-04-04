@@ -28,4 +28,5 @@
     <string name="list_item_copy_description">Copy to clipboard</string>
     <string name="lists_toast_message_copied">List copied to clipboard</string>
     <string name="action_continue_without_login">Skip login</string>
+    <string name="movie_details_add_to_list">Add to list</string>
 </resources>
