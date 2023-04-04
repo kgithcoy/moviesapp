@@ -31,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        Button loginButton = findViewById(R.id.login);
 
+        Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(v ->
             authRepository.login(
                 loginToken,
@@ -42,6 +42,12 @@ public class LoginActivity extends AppCompatActivity {
                 this::handleError
             )
         );
+
+        Button skipButton = findViewById(R.id.continue_without_login);
+        skipButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
     }
 
     private void onLoginTokenSuccess(LoginToken loginToken) {

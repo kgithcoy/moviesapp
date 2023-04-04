@@ -24,6 +24,7 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        AuthRepository.requireAuthentication(this);
 
         var authRepository = new AuthRepository(this);
         listRepository = new ListRepository(this);

@@ -1,11 +1,14 @@
 package android.moviesapp.data;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.moviesapp.domain.Account;
 import android.moviesapp.domain.api.LoginToken;
 import android.moviesapp.domain.api.Session;
 import android.moviesapp.domain.api.ValidateRequestTokenRequest;
+import android.moviesapp.presentation.LoginActivity;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -130,6 +133,12 @@ public class AuthRepository {
                 new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
             }
         });
+    }
+
+    public static void requireAuthentication(Activity activity) {
+        if(session != null) return;
+        activity.startActivity(new Intent(activity, LoginActivity.class));
+        activity.finish();
     }
 
     public static Session getSession() {
