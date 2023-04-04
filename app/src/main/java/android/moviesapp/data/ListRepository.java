@@ -17,12 +17,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListRepository {
-
     private static final String TAG = "MovieRepository";
-
     private final ListDao listDao;
     private final TheMovieDBService theMovieDBService;
-
 
     public ListRepository(Context ctx) {
         var db = Database.getInstance(ctx);
@@ -50,7 +47,4 @@ public class ListRepository {
             }
         });
     }
-
-
-
 }

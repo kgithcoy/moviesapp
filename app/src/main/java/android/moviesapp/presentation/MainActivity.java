@@ -120,8 +120,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         return true;
     }
 
-
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
@@ -150,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         TextView trendingLabel = findViewById(R.id.main_trending_label);
         trendingLabel.setVisibility(View.GONE);
-
     }
 
     private void openMovieDetails(Movie movie) {
@@ -158,5 +155,4 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         intent.putExtra("movie", movie);
         startActivity(intent);
     }
-
 }

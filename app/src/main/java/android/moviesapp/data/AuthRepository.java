@@ -118,7 +118,7 @@ public class AuthRepository {
     public void getAccount (Session session, Consumer<Account> success , Consumer<Exception> error) {
         CompletableFuture.runAsync(() -> {
             try {
-                var response = theMovieDBService.getAccount(TheMovieDBService.API_KEY, session.sessionId()).execute();
+                var response = theMovieDBService.getAccount(session.sessionId(), TheMovieDBService.API_KEY).execute();
                 var body = response.body();
                 if (!response.isSuccessful() || body == null) {
                     throw new Exception("API request failed; code: " + response.code());

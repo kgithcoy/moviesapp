@@ -22,4 +22,6 @@
     <string name="menu_action_list">listicon</string>
     <string name="login_toast_message_error">Invalid credentials</string>
     <string name="prompt_username">Username</string>
+    <string name="list_item_poster_description">List poster</string>
+    <string name="lists_toast_message_error">Could not fetch lists</string>
 </resources>

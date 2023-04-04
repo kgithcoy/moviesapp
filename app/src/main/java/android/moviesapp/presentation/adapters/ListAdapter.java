@@ -2,44 +2,39 @@ package android.moviesapp.presentation.adapters;
 
 import android.content.Context;
 import android.moviesapp.R;
-import android.moviesapp.domain.List;
+import android.moviesapp.domain.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Consumer;
 
-import java.util.ArrayList;
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+    private List<android.moviesapp.domain.List> lists = Collections.emptyList();
+    private Consumer<Movie> onMovieClick;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder> {
-
-    private Context context;
-    private ArrayList<List> lists;
-
-    public ListAdapter(Context context, ArrayList<List> lists) {
-        this.context = context;
+    public void setData(List<android.moviesapp.domain.List> lists) {
         this.lists = lists;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
-        return new ListViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        List list = lists.get(position);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        var list = lists.get(position);
         holder.name.setText(list.getName());
-        holder.description.setText(list.getDescription());
-        holder.itemCount.setText(String.valueOf(list.getItemCount()));
-        Picasso.get().load(list.getPosterPath()).into(holder.poster);
     }
 
     @Override
@@ -47,18 +42,12 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ListViewHolder
         return lists.size();
     }
 
-    public static class ListViewHolder extends RecyclerView.ViewHolder {
-        ImageView poster;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
-        TextView description;
-        TextView itemCount;
 
-        public ListViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            poster = itemView.findViewById(R.id.item_list_poster);
             name = itemView.findViewById(R.id.item_list_name);
-            description = itemView.findViewById(R.id.item_list_description);
-            itemCount = itemView.findViewById(R.id.item_list_count);
         }
     }
 }

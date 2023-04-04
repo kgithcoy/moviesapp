@@ -71,5 +71,9 @@ public class List {
     public void setItems(ArrayList<Movie> items) {
         this.items = items;
     }
+
+    public String getPosterUrl() {
+        return "https://image.tmdb.org/t/p/w500" + posterPath;
+    }
 }
 
