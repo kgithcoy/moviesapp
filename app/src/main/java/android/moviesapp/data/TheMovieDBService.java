@@ -1,15 +1,20 @@
 package android.moviesapp.data;
 
+import android.moviesapp.domain.List;
 import android.moviesapp.domain.Movie;
+import android.moviesapp.domain.Account;
 import android.moviesapp.domain.api.ResponseData;
 import android.moviesapp.domain.api.Session;
 import android.moviesapp.domain.api.LoginToken;
 import android.moviesapp.domain.api.ValidateRequestTokenRequest;
 
+import java.util.concurrent.Executor;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -32,6 +37,19 @@ public interface TheMovieDBService {
     @GET("/3/search/movie")
     Call<ResponseData<Movie>> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);
 
+
+    @GET("/3/account")
+    Call<Account> getAccount(@Query("session_id") String sessionId, @Query("api_key") String apiKey);
+
+    @GET("/3/account/{account_id}/lists")
+    Call<ResponseData<List>> getAccountLists(
+            @Path("account_id") int accountId,
+            @Query("session_id") String sessionId,
+            @Query("api_key") String apiKey
+    );
+
+
+
     /* login */
     @GET("/3/authentication/token/new")
     Call<LoginToken> getRequestToken(@Query("api_key") String apiKey);
@@ -44,4 +62,6 @@ public interface TheMovieDBService {
 
     @POST("/3/authentication/session/new")
     Call<Session> createSession(@Body LoginToken loginToken, @Query("api_key") String apiKey);
+
+
 }

@@ -1,9 +1,8 @@
 package android.moviesapp.data;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.moviesapp.domain.Account;
 import android.moviesapp.domain.api.LoginToken;
 import android.moviesapp.domain.api.Session;
 import android.moviesapp.domain.api.ValidateRequestTokenRequest;
@@ -114,6 +113,23 @@ public class AuthRepository {
             success,
             error
         );
+    }
+
+    public void getAccount (Session session, Consumer<Account> success , Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.getAccount(TheMovieDBService.API_KEY, session.sessionId()).execute();
+                var body = response.body();
+                if (!response.isSuccessful() || body == null) {
+                    throw new Exception("API request failed; code: " + response.code());
+                }
+
+                new Handler(Looper.getMainLooper()).post(() -> success.accept(body));
+            } catch (Exception err) {
+                Log.e(TAG, "Could not retrieve account", err);
+                new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
+            }
+        });
     }
 
     public static Session getSession() {

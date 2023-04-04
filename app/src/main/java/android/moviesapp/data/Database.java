@@ -11,6 +11,7 @@ import androidx.room.RoomDatabase;
 public abstract class Database extends RoomDatabase {
     private static volatile Database instance;
     public abstract MovieDao movieDao();
+    public abstract ListDao listDao();
 
     public static Database getInstance(Context ctx) {
         if (instance == null) {
