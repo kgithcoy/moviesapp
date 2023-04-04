@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.moviesapp.R;
 import android.moviesapp.data.AuthRepository;
@@ -37,6 +40,13 @@ public class ListActivity extends AppCompatActivity {
             var intent = new Intent(this, ListMoviesActivity.class);
             intent.putExtra("list", list);
             startActivity(intent);
+        });
+        listAdapter.setOnListCopyClick(list -> {
+            var clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            var clip = ClipData.newPlainText("movie-list", "https://www.themoviedb.org/list/" + list.getId());
+            clipboard.setPrimaryClip(clip);
+
+            Toast.makeText(this, getResources().getString(R.string.lists_toast_message_copied), Toast.LENGTH_SHORT).show();
         });
         recyclerView.setAdapter(listAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -25,4 +25,6 @@
     <string name="list_item_poster_description">List poster</string>
     <string name="lists_toast_message_error">Could not fetch lists</string>
     <string name="list_movies_toast_message_error">Could not load list movies</string>
+    <string name="list_item_copy_description">Copy to clipboard</string>
+    <string name="lists_toast_message_copied">List copied to clipboard</string>
 </resources>

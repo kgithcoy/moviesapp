@@ -1,5 +1,8 @@
 package android.moviesapp.presentation.adapters;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.moviesapp.R;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import java.util.function.Consumer;
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<android.moviesapp.domain.List> lists = Collections.emptyList();
     private Consumer<android.moviesapp.domain.List> onListClick;
+    private Consumer<android.moviesapp.domain.List> onListCopyClick;
 
     public void setData(List<android.moviesapp.domain.List> lists) {
         this.lists = lists;
@@ -24,6 +28,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     public void setOnListClick(Consumer<android.moviesapp.domain.List> onListClick) {
         this.onListClick = onListClick;
+    }
+
+    public void setOnListCopyClick(Consumer<android.moviesapp.domain.List> onListCopyClick) {
+        this.onListCopyClick = onListCopyClick;
     }
 
     @NonNull
@@ -38,6 +46,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         var list = lists.get(position);
         holder.name.setText(list.getName());
         holder.setOnClickListener(() -> onListClick.accept(list));
+        holder.setOnCopyClickListener(() -> onListCopyClick.accept(list));
     }
 
     @Override
@@ -48,15 +57,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private Runnable onClick;
+        private Runnable onCopyClick;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.item_list_name);
             itemView.setOnClickListener(v -> onClick.run());
+            itemView.findViewById(R.id.item_list_copy).setOnClickListener(v -> onCopyClick.run());
         }
 
         public void setOnClickListener(Runnable onClick) {
             this.onClick = onClick;
+        }
+
+        public void setOnCopyClickListener(Runnable onCopyClick) {
+            this.onCopyClick = onCopyClick;
         }
     }
 }
