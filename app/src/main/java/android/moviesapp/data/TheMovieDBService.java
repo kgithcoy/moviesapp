@@ -5,6 +5,7 @@ import android.moviesapp.domain.api.ResponseData;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -25,4 +26,5 @@ public interface TheMovieDBService {
 
     @GET("/3/search/movie")
     Call<ResponseData<Movie>> searchMovies(@Query("query") String query, @Query("page") int page, @Query("api_key") String apiKey);
+
 }
