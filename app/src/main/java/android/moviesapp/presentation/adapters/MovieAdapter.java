@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -27,11 +28,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     private Consumer<Integer> onNextPage;
     private Consumer<Movie> onMovieClick;
     private int pageCounter = 0;
+    private int selectedGenreId = -1;
 
-    /**
-     * setData sets the data of the adapter.
-     * @param movies List of movies
-     */
+
     public void setData(@NotNull List<Movie> movies) {
         if(movies.isEmpty()) {
             onNextPage.accept(1);
@@ -39,8 +38,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         }
 
         this.movies = movies;
+        filterByGenre(selectedGenreId);
         notifyItemRangeChanged(pageCounter * 20, movies.size());
     }
+
+    public void filterByGenre(int genreId) {
+        selectedGenreId = genreId;
+        if (genreId == -1) {
+            filteredMovies = movies;
+        } else {
+            filteredMovies = new ArrayList<>();
+            for (Movie movie : movies) {
+                if (movie.getGenreIds().contains(genreId)) {
+                    filteredMovies.add(movie);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+    private List<Movie> filteredMovies = Collections.emptyList();
 
     /**
      * setOnNextPage sets the callback that
@@ -76,27 +92,28 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             pageCounter++;
         }
 
-        var movie = movies.get(position);
+        var movie = filteredMovies.get(position);
         holder.title.setText(movie.getTitle());
         Picasso.get()
-            .load(movie.getPosterUrl())
-            .networkPolicy(NetworkPolicy.OFFLINE)
-            .into(holder.poster, new Callback() {
-                public void onSuccess() { }
-                public void onError(Exception err) {
-                    // If image can't be loaded from cache,
-                    // try to load it from the internet.
-                    Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
-                }
-            });
+                .load(movie.getPosterUrl())
+                .networkPolicy(NetworkPolicy.OFFLINE)
+                .into(holder.poster, new Callback() {
+                    public void onSuccess() { }
+                    public void onError(Exception err) {
+                        // If image can't be loaded from cache,
+                        // try to load it from the internet.
+                        Picasso.get().load(movie.getPosterUrl()).into(holder.poster);
+                    }
+                });
 
         holder.setOnClickListener(() -> onMovieClick.accept(movie));
     }
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return filteredMovies.size();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView poster;

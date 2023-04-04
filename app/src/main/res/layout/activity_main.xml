@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".presentation.MainActivity">
 
     <!-- search bar, hidden by default -->
+    <Spinner
+        android:id="@+id/genre_spinner"
+        android:layout_width="139dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
     <LinearLayout
         android:id="@+id/main_search_bar_container"
         android:visibility="gone"

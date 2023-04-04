@@ -1,5 +1,6 @@
 package android.moviesapp.data;
 
+import android.moviesapp.domain.Genre;
 import android.moviesapp.domain.List;
 import android.moviesapp.domain.Movie;
 import android.moviesapp.domain.Account;
@@ -50,8 +51,8 @@ public interface TheMovieDBService {
 
     @GET("/3/list/{list_id}")
     Call<List> getList(
-         @Path("list_id") int listId,
-         @Query("api_key") String apiKey
+            @Path("list_id") int listId,
+            @Query("api_key") String apiKey
     );
 
     /* login */
@@ -60,12 +61,13 @@ public interface TheMovieDBService {
 
     @POST("/3/authentication/token/validate_with_login")
     Call<LoginToken> validateRequestToken(
-        @Body ValidateRequestTokenRequest validateRequestTokenRequest,
-        @Query("api_key") String apiKey
+            @Body ValidateRequestTokenRequest validateRequestTokenRequest,
+            @Query("api_key") String apiKey
     );
 
     @POST("/3/authentication/session/new")
     Call<Session> createSession(@Body LoginToken loginToken, @Query("api_key") String apiKey);
-
+    @GET("/3/genre/movie/list")
+    Call<GenresResponseData<Genre>> getGenres(@Query("api_key") String apiKey);
 
 }

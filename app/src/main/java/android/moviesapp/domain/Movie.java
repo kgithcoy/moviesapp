@@ -33,6 +33,9 @@ public class Movie implements Serializable {
     @SerializedName("vote_count")
     private int voteCount;
 
+    @SerializedName("genre_ids")
+    private ArrayList<Integer> genreIds;
+
     private double popularity;
 
     @Ignore
@@ -99,6 +102,14 @@ public class Movie implements Serializable {
 
     public int getVoteCount() {
         return voteCount;
+    }
+
+    public ArrayList<Integer> getGenreIds() {
+        return genreIds;
+    }
+
+    public void setGenreIds(ArrayList<Integer> genreIds) {
+        this.genreIds = genreIds;
     }
 
     public void setVoteCount(int voteCount) {
