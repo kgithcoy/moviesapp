@@ -20,11 +20,11 @@
             android:name=".presentation.MovieDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.LoginActivity"
+            android:name=".presentation.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
-            android:exported="true" >
+            android:name=".presentation.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,5 +32,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

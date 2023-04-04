@@ -20,4 +20,5 @@
     <string name="movieposter">movieposter</string>
     <string name="list">Lijst</string>
     <string name="menu_action_list">listicon</string>
+    <string name="login_toast_message_error">Invalid credentials</string>
 </resources>
