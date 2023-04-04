@@ -119,18 +119,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        searchBarContainer.setVisibility(SearchView.GONE);
-        movieListContainer.setVisibility(SearchView.VISIBLE);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
-        if (query.isEmpty()) return false;
-        movieRepo.searchMovies(query, 1, data -> {
-            searchAdapter.setData(data);
-            toastShown = false;
-        }, this::handleError);
+        if (query.isEmpty()) {
+            searchBarContainer.setVisibility(SearchView.GONE);
+            movieListContainer.setVisibility(SearchView.VISIBLE);
+            return false;
+        }
+        toastShown = false;
+        movieRepo.searchMovies(query, 1, data -> searchAdapter.setData(data), this::handleError);
         return false;
     }
 
