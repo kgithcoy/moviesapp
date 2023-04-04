@@ -1,8 +1,6 @@
 package android.moviesapp.presentation.adapters;
 
-import android.content.Context;
 import android.moviesapp.R;
-import android.moviesapp.domain.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +15,15 @@ import java.util.function.Consumer;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<android.moviesapp.domain.List> lists = Collections.emptyList();
-    private Consumer<Movie> onMovieClick;
+    private Consumer<android.moviesapp.domain.List> onListClick;
 
     public void setData(List<android.moviesapp.domain.List> lists) {
         this.lists = lists;
         notifyDataSetChanged();
+    }
+
+    public void setOnListClick(Consumer<android.moviesapp.domain.List> onListClick) {
+        this.onListClick = onListClick;
     }
 
     @NonNull
@@ -35,6 +37,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         var list = lists.get(position);
         holder.name.setText(list.getName());
+        holder.setOnClickListener(() -> onListClick.accept(list));
     }
 
     @Override
@@ -43,11 +46,17 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
+        private final TextView name;
+        private Runnable onClick;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.item_list_name);
+            itemView.setOnClickListener(v -> onClick.run());
+        }
+
+        public void setOnClickListener(Runnable onClick) {
+            this.onClick = onClick;
         }
     }
 }

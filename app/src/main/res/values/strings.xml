@@ -24,4 +24,5 @@
     <string name="prompt_username">Username</string>
     <string name="list_item_poster_description">List poster</string>
     <string name="lists_toast_message_error">Could not fetch lists</string>
+    <string name="list_movies_toast_message_error">Could not load list movies</string>
 </resources>

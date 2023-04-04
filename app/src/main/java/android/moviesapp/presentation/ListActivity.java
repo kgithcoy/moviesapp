@@ -1,11 +1,10 @@
 package android.moviesapp.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.moviesapp.R;
 import android.moviesapp.data.AuthRepository;
 import android.moviesapp.data.ListRepository;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 
 public class ListActivity extends AppCompatActivity {
     private ListRepository listRepository;
-    private AuthRepository authRepository;
     private ListAdapter listAdapter;
 
     @Override
@@ -24,7 +22,7 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        authRepository = new AuthRepository(this);
+        var authRepository = new AuthRepository(this);
         listRepository = new ListRepository(this);
 
         authRepository.getAccount(
@@ -35,6 +33,11 @@ public class ListActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.lists_recycler_view);
         listAdapter = new ListAdapter();
+        listAdapter.setOnListClick(list -> {
+            var intent = new Intent(this, ListMoviesActivity.class);
+            intent.putExtra("list", list);
+            startActivity(intent);
+        });
         recyclerView.setAdapter(listAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

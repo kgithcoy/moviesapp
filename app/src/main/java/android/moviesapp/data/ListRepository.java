@@ -47,4 +47,20 @@ public class ListRepository {
             }
         });
     }
+
+    public void requestList(int listId, Consumer<android.moviesapp.domain.List> success, Consumer<Exception> error) {
+        CompletableFuture.runAsync(() -> {
+            try {
+                var response = theMovieDBService.getList(listId, TheMovieDBService.API_KEY).execute();
+                var list = response.body();
+                if (!response.isSuccessful() || list == null) {
+                    throw new Exception("API request failed; code: " + response.code());
+                }
+                new Handler(Looper.getMainLooper()).post(() -> success.accept(list));
+            } catch (Exception err) {
+                Log.e(TAG, "Could not load list", err);
+                new Handler(Looper.getMainLooper()).post(() -> error.accept(err));
+            }
+        });
+    }
 }

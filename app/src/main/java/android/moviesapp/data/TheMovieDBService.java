@@ -48,7 +48,11 @@ public interface TheMovieDBService {
             @Query("api_key") String apiKey
     );
 
-
+    @GET("/3/list/{list_id}")
+    Call<List> getList(
+         @Path("list_id") int listId,
+         @Query("api_key") String apiKey
+    );
 
     /* login */
     @GET("/3/authentication/token/new")
