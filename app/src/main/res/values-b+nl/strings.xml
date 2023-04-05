@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">moviesapp</string>
+    <string name="title_activity_login">Login Activity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Wachtwoord</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="welcome">"Welkom !"</string>
+    <string name="invalid_username">Ongeldige username</string>
+    <string name="main_toast_message_error">Kan films niet laden vanuit API</string>
+    <string name="trending">Trending</string>
+    <string name="popular">Popular</string>
+    <string name="most_played">Meest afgespeeld</string>
+    <string name="recommended">Aanbevolen</string>
+    <string name="top_rated">Hoogst gewaardeerd</string>
+    <string name="main_query_hint">Zoek Films</string>
+    <string name="menu_action_search">Zoek</string>
+    <string name="movieposter">movieposter</string>
+    <string name="list">Lijst</string>
+    <string name="menu_action_list">listicon</string>
+    <string name="login_toast_message_error">Ongeldige login gegevens</string>
+    <string name="prompt_username">Username</string>
+    <string name="list_item_poster_description">List poster</string>
+    <string name="lists_toast_message_error">Kan lijsten niet opvragen</string>
+    <string name="list_movies_toast_message_error">Kan films uit lijst niet ophalen</string>
+    <string name="list_item_copy_description">Kopieer naar kladblok</string>
+    <string name="lists_toast_message_copied">Lijst gecopieerd naar kladblok</string>
+    <string name="action_continue_without_login">Login overslaan</string>
+    <string name="movie_details_add_to_list">Voeg toe aan lijst</string>
+</resources>
